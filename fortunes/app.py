@@ -73,21 +73,30 @@ class Fortune(db.Model):
         self.key = key
 
     @staticmethod
-    def get_random(token=None, only_token=True):
-        pass
+    def get_random(token):
+        return Fortune.query.filter(Fortune.key.has(token=token))\
+                .order_by(db.func.random()).limit(1).first()
 
 
 class KeyView(Resource):
     def get(self):
         user = User.get_or_create(request.remote_addr)
-        private = request.form.get('private', False)
-        key = Key.create(user, private)
-        return {'token': key.token, 'private': private}
+        key = Key.create(user)
+        return {'token': key.token}
 
 
 class FortuneView(Resource):
     def get(self):
-        return 'thing'
+        token = request.form.get('token', None)
+        if not token:
+            pass # return token required
+        
+        result = Fortune.get_random(token)
+        if not result:
+            pass # return invalid token
+
+        return {'fortune': result.text}
+
 
     def put(self):
         token = request.form.get('token', None)
