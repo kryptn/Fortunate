@@ -1,19 +1,19 @@
-
 from random import choice
 
-from flask import Flask
-from flask_restful import Resource, Api
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fortunes.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-api = Api(app)
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
 
+    id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(15))
 
     def __init__(self, ip):
@@ -33,8 +33,6 @@ class User(db.Model):
 
 class Key(db.Model):
     
-    alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    
     id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String(16), unique=True)
     private = db.Column(db.Boolean)
@@ -46,7 +44,7 @@ class Key(db.Model):
         self.user = user
         result = True
         while result:
-            token = ''.join(choice(self.alphanum) for x in range(16))
+            token = ''.join(choice(alphanum) for x in range(16))
             result = Key.query.filter_by(token=token).first()
 
         self.token = token
@@ -61,6 +59,7 @@ class Key(db.Model):
 
 
 class Fortune(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text)
     pulls = db.Column(db.Integer)
@@ -77,46 +76,5 @@ class Fortune(db.Model):
         return Fortune.query.filter(Fortune.key.has(token=token))\
                 .order_by(db.func.random()).limit(1).first()
 
-
-class KeyView(Resource):
-    def get(self):
-        user = User.get_or_create(request.remote_addr)
-        key = Key.create(user)
-        return {'token': key.token}
-
-
-class FortuneView(Resource):
-    def get(self):
-        token = request.form.get('token', None)
-        if not token:
-            pass # return token required
-        
-        result = Fortune.get_random(token)
-        if not result:
-            pass # return invalid token
-
-        return {'fortune': result.text}
-
-
-    def put(self):
-        token = request.form.get('token', None)
-
-        if token:
-            key = Key.query.filter_by(token=token).first()
-            if key:
-                fortunes = []
-                raw_str = request.form.get('fortune', None)
-                raw_list = request.form.get('fortunes', None)
-                if raw_str:
-                    fortunes.append(raw_str)
-                elif raw_list:
-                    fortunes += raw_list
-                else:
-                    pass # return some http empty status
-
-                db.session.add_all(Fortune(key, f) for f in fortunes)
-            else:
-                pass # token invalid
-        else:
-            pass # Key Required        
-
+if __name__ == '__main__':
+    pass
