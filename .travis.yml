@@ -10,10 +10,6 @@ python:
     - "3.6-dev"
     - "nightly"
 
-before_install:
-    - git clone https://github.com/kryptn/fortunate.git
-    - cd fortunate
-
 install:
     - pip install -e fortunate
 
