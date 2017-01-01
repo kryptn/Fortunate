@@ -1,0 +1,1 @@
+from fortunate import app

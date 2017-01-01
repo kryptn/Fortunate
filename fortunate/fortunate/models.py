@@ -1,15 +1,12 @@
 from random import choice
 
-from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+
+from fortunate import app
 
 alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fortunes.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-
 
 class User(db.Model):
 
@@ -76,5 +73,3 @@ class Fortune(db.Model):
         return Fortune.query.filter(Fortune.key.has(token=token))\
                 .order_by(db.func.random()).limit(1).first()
 
-if __name__ == '__main__':
-    pass
