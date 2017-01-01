@@ -15,3 +15,6 @@ install:
 
 script:
     - python -m fortunate.tests
+
+notifcations:
+    email: false

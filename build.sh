@@ -1,8 +1,7 @@
 tf='.env'
 
 rm -rf $tf
-virtualenv $tf -p python3
+virtualenv $tf -p python
 $tf/bin/pip install -e fortunate
 
-export FORTUNATE_SETTINGS=dev_settings.py
 

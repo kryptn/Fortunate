@@ -6,7 +6,7 @@ from fortunate import make_app, db, models
 class ModelsTest(TestCase):
 
     def create_app(self):
-        return make_app('fortunate.test_settings')
+        return make_app()
 
     def setUp(self):
         db.create_all()
