@@ -1,9 +1,17 @@
 from flask import Flask
 
-app = Flask(__name__)
-app.config.from_object('fortunate.settings')
+def make_app(additional_settings=None):
+    app = Flask(__name__)
+    app.config.from_object('fortunate.default_settings')
+    app.config.from_envvar('FORTUNATE_SETTINGS')
+    if additional_settings:
+        app.config.from_object(additional_settings)
 
-from fortunate.models import User, Key, Fortune
+    return app
+
+app = make_app()
+
+from fortunate.models import db, User, Key, Fortune
 
 if __name__ == '__main__':
     pass
