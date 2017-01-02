@@ -30,7 +30,6 @@ class ModelsTest(TestCase):
         self.assertEqual(k.user, u)
         self.assertEqual(u.keys[0], k)
 
-
     def test_add_fortune(self):
         u = models.User.get_or_create('1.1.1.1')
         k = models.Key.create(u)
@@ -46,9 +45,8 @@ class ModelsTest(TestCase):
         second_fortune = 'fortune2'
         f1 = models.Fortune.add(k, first_fortune)
         f2 = models.Fortune.add(k, second_fortune)
-
-        self.assertIn(models.Fortune.get_random(k.token).id, [1, 2])
-
+        
+        self.assertTrue(models.Fortune.get_random(k.token).id in [1, 2])
 
     def test_random_isolated_fortune(self):        
         u = models.User.get_or_create('1.1.1.1')
