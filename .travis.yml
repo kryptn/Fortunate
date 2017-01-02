@@ -10,9 +10,13 @@ python:
 
 install:
     - pip install -e fortunate
+    - pip install coveralls
 
 script:
-    - python -m fortunate.tests
+    - coverage run --source=fortunate fortunate/setup.py test
+
+after_success:
+    coveralls
 
 notifcations:
     email: false
