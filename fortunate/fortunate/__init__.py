@@ -12,6 +12,3 @@ def make_app(additional_settings=None):
 app = make_app()
 
 from fortunate.models import db, User, Key, Fortune
-
-if __name__ == '__main__':
-    pass
