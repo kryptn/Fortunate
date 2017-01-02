@@ -69,6 +69,13 @@ class Fortune(db.Model):
         self.key = key
 
     @staticmethod
+    def add(key, text):
+        f = Fortune(key, text)
+        db.session.add(f)
+        db.session.commit()
+        return f
+
+    @staticmethod
     def get_random(token):
         return Fortune.query.filter(Fortune.key.has(token=token))\
                 .order_by(db.func.random()).limit(1).first()
