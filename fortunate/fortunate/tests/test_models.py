@@ -1,8 +1,6 @@
-import unittest
-
 from fortunate import db, models
 
-from base import Base
+from fortunate.tests.base import Base
 
 class ModelsTest(Base):
 

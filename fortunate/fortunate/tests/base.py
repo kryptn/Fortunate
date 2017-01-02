@@ -1,5 +1,4 @@
 from flask_testing import TestCase
-
 from fortunate import make_app, db
 
 class Base(TestCase):

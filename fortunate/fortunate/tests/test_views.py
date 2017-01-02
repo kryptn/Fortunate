@@ -1,6 +1,6 @@
 from fortunate import db, models, views
 
-from base import Base
+from fortunate.tests.base import Base
 
 class ViewsTest(Base):
 
