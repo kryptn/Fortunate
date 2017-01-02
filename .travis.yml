@@ -18,5 +18,5 @@ script:
 after_success:
     coveralls
 
-notifcations:
+notifications:
     email: false
