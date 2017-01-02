@@ -1,6 +1,6 @@
 import unittest
 
-from fortunate import make_app
+from fortunate.utils import make_app
 
 class AppTest(unittest.TestCase):
 
