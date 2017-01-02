@@ -1,19 +1,10 @@
 import unittest
 
-from flask_testing import TestCase
-from fortunate import make_app, db, models
+from fortunate import db, models
 
-class ModelsTest(TestCase):
+from base import Base
 
-    def create_app(self):
-        return make_app()
-
-    def setUp(self):
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+class ModelsTest(Base):
 
     def test_user_create(self):
         u = models.User.get_or_create('1.1.1.1')
