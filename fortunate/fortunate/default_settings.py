@@ -1,2 +1,2 @@
-SQLALCHEMY_DATABASE_URI = 'sqlite://fortunes.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///fortunes.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
