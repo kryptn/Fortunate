@@ -1,4 +1,4 @@
-from fortunate import db, models
+from fortunate import models
 
 from fortunate.tests.base import Base
 

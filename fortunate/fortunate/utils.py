@@ -1,5 +1,6 @@
 from flask import Flask, json, Response
 
+
 class ApiFlask(Flask):
     def make_response(self, rv):
         if isinstance(rv, ApiResult):
@@ -31,9 +32,17 @@ def register_error_handlers(app):
 def make_app(additional_settings=None):
     app = ApiFlask('fortunate')
     app.config.from_object('fortunate.default_settings')
-    app.config.from_envvar('FORTUNATE_SETTINGS')
     if additional_settings:
         app.config.from_object(additional_settings)
+
+    # initialize db connection to avoid circular import
+    from fortunate.models import db
+    db.init_app(app)
+
+    # register routes here instead of in __init__
+    from fortunate.urls import routes
+    for route in routes:
+        app.add_url_rule(**route)
 
     #register_error_handlers(app)
     return app

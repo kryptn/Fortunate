@@ -2,11 +2,10 @@ from random import choice
 
 from flask_sqlalchemy import SQLAlchemy
 
-from fortunate import app
-
 alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+#db = SQLAlchemy(app)
 
 class User(db.Model):
 
