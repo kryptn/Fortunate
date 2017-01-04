@@ -20,6 +20,7 @@ class ApiResult:
 
 class ApiException(Exception):
     def __init__(self, message, status=400):
+        Exception.__init__(self)
         self.message = message
         self.status = status
 

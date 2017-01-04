@@ -19,8 +19,9 @@ class FortuneAPI(MethodView):
             fortune = Fortune.get_random(token)
             if fortune:
                 return ApiResult({'fortune':fortune.text})
-            return ApiException('Invalid Token or No Fortune')
-        return ApiException('token required')
+
+            raise ApiException('Invalid Token or No Fortune')
+        raise ApiException('Token Required')
 
     def post(self):
         token = request.form.get('token', None)
@@ -30,5 +31,5 @@ class FortuneAPI(MethodView):
             if key:
                 result = Fortune.add(key, fortune)
                 return ApiResult({'fortune': result.text})
-            return ApiException('Invalid Token')
-        return ApiException('Malformed Request (token and fortune required)')
+            raise ApiException('Invalid Token')
+        raise ApiException('Malformed Request (token and fortune required)')
