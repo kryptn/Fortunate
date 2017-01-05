@@ -7,16 +7,12 @@ from fortunate.exceptions import ApiException
 
 db = SQLAlchemy()
 
+
 class SqlFortune(utils.Fortune):
     def commit(self, model):
         db.session.add(model)
         db.session.commit()
         return model
-
-    def return_or_raise(self, result, message):
-        if result:
-            return result
-        raise ApiException(message)
 
     def get_user(self, ip):
         result = User.query.filter_by(ip=ip).first()
@@ -69,6 +65,7 @@ class Key(db.Model):
     def __init__(self, user, token):
         self.user = user
         self.token = token
+
 
 class Fortune(db.Model):
     id = db.Column(db.Integer, primary_key=True)

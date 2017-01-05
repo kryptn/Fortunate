@@ -8,6 +8,7 @@ from fortunate.utils import ApiResult
 
 api = SqlFortune()
 
+
 class TokenAPI(MethodView):
     def get(self):
         user = api.get_or_create_user(request.remote_addr)

@@ -75,4 +75,4 @@ class ViewsTest(Base):
 
     def test_index(self):
         resp = self.client.get('/')
-        self.assertEqual(resp.data, 'test')
+        self.assert200(resp)
