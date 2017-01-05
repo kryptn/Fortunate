@@ -52,6 +52,14 @@ class ViewsTest(Base):
         self.assert200(fortune)
         self.assertTrue(fortune.json['fortune'] in self.fortunes)
 
+    def test_fortune_get_empty_token(self):
+        response = self.client.get('/token/')
+        result = self.set_fortune(token=response.json['token'], fortune=self.fortunes[0])
+        fortune = self.client.get('/fortune/', data={'token': None})
+        
+        self.assert400(fortune)
+        self.assertTrue('Required' in fortune.json['message'])
+
     def test_fortune_get_invalid_token(self):
         result = self.client.get('/fortune/', data={'token': 'x'})
 
@@ -64,3 +72,7 @@ class ViewsTest(Base):
 
         self.assert400(result)
         self.assertTrue('Fortune' in result.json['message'])
+
+    def test_index(self):
+        resp = self.client.get('/')
+        self.assertEqual(resp.data, 'test')
