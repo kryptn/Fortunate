@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 from fortunate.utils import make_app
-from fortunate.models import db
+from fortunate.models.sqlalchemy import db
 
 class Base(TestCase):
     

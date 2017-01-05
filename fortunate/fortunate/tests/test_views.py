@@ -28,7 +28,7 @@ class ViewsTest(Base):
         result = self.set_fortune(token=response.json['token'])
 
         self.assert400(result)
-        self.assertTrue('Malformed' in result.json['message'])
+        self.assertTrue('Required' in result.json['message'])
 
     def test_fortune_post_invalid_token(self):
         result = self.set_fortune(token='x', fortune='x')

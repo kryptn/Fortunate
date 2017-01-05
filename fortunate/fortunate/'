@@ -55,17 +55,14 @@ class Fortune:
         try:
             return self.get_user(*args, **kwargs)
         except Exception:
-            return self.create_user(*args, **kwargs)
+            return self.create_uesr(*args, **kwargs)
 
     def new_token(self):
         alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         result = True
         while result:
             token = ''.join(choice(alphanum) for x in range(16))
-            try:
-                result = self.get_key(token)
-            except Exception:
-                result = None
+            result = self.get_key(token)
         return token        
 
     def get_key(self):

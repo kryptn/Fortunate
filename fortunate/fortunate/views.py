@@ -1,36 +1,34 @@
 from flask import request
 from flask.views import MethodView
 
-from fortunate.models import User, Key, Fortune
-from fortunate.utils import ApiResult, ApiException
+#from fortunate.models import User, Key, Fortune
+from fortunate.models.sqlalchemy import SqlFortune
+from fortunate.exceptions import ApiException
+from fortunate.utils import ApiResult
 
+api = SqlFortune()
 
 class TokenAPI(MethodView):
-
     def get(self):
-        user = User.get_or_create(request.remote_addr)
-        key = Key.create(user)
+        user = api.get_or_create_user(request.remote_addr)
+        key = api.create_key(user)
         return ApiResult({'token':key.token})
 
 
 class FortuneAPI(MethodView):
-
     def get(self):
         token = request.form.get('token', None)
-        if token:
-            fortune = Fortune.get_random(token)
-            if fortune:
-                return ApiResult({'fortune':fortune.text})
-            raise ApiException('Invalid Token or No Fortune')
-        raise ApiException('Token Required')
+        if not token:
+            raise ApiException('Token Required')
+        
+        fortune = api.random_fortune(token)
+        return ApiResult({'fortune':fortune.text})
 
     def post(self):
         token = request.form.get('token', None)
         fortune = request.form.get('fortune', None)
-        if token and fortune:
-            key = Key.query.filter_by(token=token).first()
-            if key:
-                result = Fortune.add(key, fortune)
-                return ApiResult({'fortune': result.text})
-            raise ApiException('Invalid Token')
-        raise ApiException('Malformed Request (token and fortune required)')
+        if not token or not fortune:
+            raise ApiException('Token and Fortune Required')
+        fortune = api.add_fortune(token, fortune)
+        return ApiResult({'fortune':fortune.text})
+
