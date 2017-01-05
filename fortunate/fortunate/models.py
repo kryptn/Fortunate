@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 db = SQLAlchemy()
-#db = SQLAlchemy(app)
+
 
 class User(db.Model):
 
