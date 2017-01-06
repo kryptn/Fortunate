@@ -23,6 +23,12 @@ class SqlFortune(utils.Fortune):
     def create_user(self, ip):
         return self.commit(User(ip))
 
+    def get_or_create_user(self, ip):
+        try:
+            return self.get_user(ip)
+        except ApiException:
+            return self.create_user(ip)
+
     def get_key(self, token):
         result = Key.query.filter_by(token=token).first()
         if result:
@@ -44,6 +50,17 @@ class SqlFortune(utils.Fortune):
         if result:
             return self.commit(Fortune(result, text))
         raise ApiException('Invalid Token')
+
+    def new_token(self):
+        alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        result = True
+        while result:
+            token = ''.join(choice(alphanum) for x in range(16))
+            try:
+                result = self.get_key(token)
+            except Exception:
+                result = None
+        return token        
 
 
 class User(db.Model):

@@ -46,37 +46,26 @@ def make_app(additional_settings=None):
 class Fortune:
 
     def get_user(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def create_user(self):
-        raise NotImplemented
-
-    def get_or_create_user(self, *args, **kwargs):
-        try:
-            return self.get_user(*args, **kwargs)
-        except Exception:
-            return self.create_user(*args, **kwargs)
+        raise NotImplementedError
+    
+    def get_or_create_user(self):
+        raise NotImplementedError
 
     def new_token(self):
-        alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        result = True
-        while result:
-            token = ''.join(choice(alphanum) for x in range(16))
-            try:
-                result = self.get_key(token)
-            except Exception:
-                result = None
-        return token        
+        raise NotImplementedError
 
     def get_key(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def create_key(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def random_fortune(self):
-        raise NotImplemented
+        raise NotImplementedError
         
     def add_fortune(self):
-        raise NotImplemented
+        raise NotImplementedError
 
