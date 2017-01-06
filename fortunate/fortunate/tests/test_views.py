@@ -16,6 +16,9 @@ class ViewsTest(Base):
         self.assert200(response)
         self.assertEqual(len(response.json['token']), 16)
 
+        response = self.client.get('/token/')
+        self.assert200(response)
+
     def test_fortune_post(self):
         response = self.client.get('/token/')
         result = self.set_fortune(token=response.json['token'], fortune=self.fortunes[0])
@@ -25,7 +28,6 @@ class ViewsTest(Base):
 
         result = self.set_fortune(token=response.json['token'], fortune=self.fortunes[1])
         self.assert200(result)
-
 
     def test_fortune_post_empty(self):
         response = self.client.get('/token/')
