@@ -47,9 +47,8 @@ class SqlFortune(utils.Fortune):
 
     def add_fortune(self, token, text):
         result = Key.query.filter_by(token=token).first()
-        if result:
-            return self.commit(Fortune(result, text))
-        raise ApiException('Invalid Token')
+        key = self.get_key(token)
+        return self.commit(Fortune(key, text))
 
     def new_token(self):
         alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'

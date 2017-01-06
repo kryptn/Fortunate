@@ -23,6 +23,10 @@ class ViewsTest(Base):
         self.assert200(result)
         self.assertEqual('a', result.json['fortune'])
 
+        result = self.set_fortune(token=response.json['token'], fortune=self.fortunes[1])
+        self.assert200(result)
+
+
     def test_fortune_post_empty(self):
         response = self.client.get('/token/')
         result = self.set_fortune(token=response.json['token'])
