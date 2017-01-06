@@ -1,4 +1,4 @@
-from string import letters
+from string import ascii_letters
 from random import choice, sample
 from collections import defaultdict
 
@@ -40,7 +40,7 @@ class DictFortune(Fortune):
         return Dotted(token=token)
 
     def new_token(self):
-        token = ''.join(sample(letters, 16))
+        token = ''.join(sample(ascii_letters, 16))
         if token in self.tokens():
             return self.new_token()
         return token
