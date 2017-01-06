@@ -40,9 +40,10 @@ class DictFortune(Fortune):
         return Dotted(token=token)
 
     def new_token(self):
-        token = ''.join(sample(ascii_letters, 16))
-        if token in self.tokens():
-            return self.new_token()
+        result = True
+        while result:
+            token = ''.join(sample(ascii_letters, 16))
+            result = token in self.tokens()
         return token
 
     def random_fortune(self, token):
