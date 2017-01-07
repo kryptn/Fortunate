@@ -14,10 +14,14 @@ class Dotted:
 
 class DictFortune(Fortune):
 
-    def __init__(self):
+    def __init__(self, app=None):
+        super(DictFortune, self).__init__(app)
         # Schema:
         #    {username: {token: [fortunes]}}
         self.db = defaultdict(dict)
+
+    def init_app(self, app):
+        pass
 
     def tokens(self):
         t = [v.keys() for k, v in self.db.items()]

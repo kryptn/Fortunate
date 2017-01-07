@@ -1,17 +1,10 @@
 from flask import request
 from flask.views import MethodView
 
-#from fortunate.models.sqlalchemy import SqlFortune
-from fortunate.models.dict import DictFortune
+from fortunate.models import api
 from fortunate.exceptions import ApiException
 from fortunate.utils import ApiResult
 
-#api = SqlFortune()
-api = DictFortune()
-
-# logic for initilizing storage would go here
-# fortunate.utils.make_app would set it to the app instance
-# probably something like `api = flask.current_app.storage()`
 
 class TokenAPI(MethodView):
     def get(self):

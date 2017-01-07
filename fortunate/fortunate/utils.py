@@ -28,8 +28,12 @@ def make_app(additional_settings=None):
         app.config.from_object(additional_settings)
 
     # initialize db connection to avoid circular import
-    from fortunate.models.sqlalchemy import db
-    db.init_app(app)
+    #from fortunate.models.sqlalchemy import db
+    #db.init_app(app)
+    
+    from fortunate.models import api
+    api.init_app(app)
+
 
     # register routes here instead of in __init__ to allow testing
     from fortunate.urls import routes
@@ -43,7 +47,12 @@ def make_app(additional_settings=None):
     return app
 
 
-class Fortune:
+class Fortune(object):
+
+    def __init__(self, app=None):
+        self.app = app
+        if app is not None:
+            self.init_app(app)
 
     def get_user(self):
         raise NotImplementedError

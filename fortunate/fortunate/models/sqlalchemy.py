@@ -9,6 +9,10 @@ db = SQLAlchemy()
 
 
 class SqlFortune(utils.Fortune):
+
+    def init_app(self, app):
+        db.init_app(app)
+
     def commit(self, model):
         db.session.add(model)
         db.session.commit()
