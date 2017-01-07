@@ -1,9 +1,9 @@
-from fortunate import models, views
+from flask_testing import TestCase
 
-from fortunate.tests.base import Base
+from fortunate.utils import make_app
+from fortunate.models.sqlalchemy import db
 
-class ViewsTest(Base):
-    
+class ViewsMixin(object):
     fortunes = list('abcdefg')
 
     def set_fortune(self, *args, **kwargs):
@@ -82,3 +82,26 @@ class ViewsTest(Base):
     def test_index(self):
         resp = self.client.get('/')
         self.assert200(resp)
+
+
+class TestSqlViews(TestCase, ViewsMixin):    
+    def create_app(self):
+        app = make_app('fortunate.test_settings')
+        app.add_url_rule('/', view_func=lambda: 'test')
+        return app
+
+    def setUp(self):
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+class TestDictViews(TestCase, ViewsMixin):
+    def create_app(self):
+        class Testing:
+            TESTING=True
+            backed='fict'
+        app = make_app(Testing)
+        app.add_url_rule('/', view_func=lambda: 'test')
+        return app

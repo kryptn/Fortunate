@@ -31,9 +31,8 @@ def make_app(additional_settings=None):
     #from fortunate.models.sqlalchemy import db
     #db.init_app(app)
     
-    from fortunate.models import api
-    api.init_app(app)
-
+    from fortunate.models import init_api
+    init_api(app.config.get('backend', 'sql'), app)
 
     # register routes here instead of in __init__ to allow testing
     from fortunate.urls import routes
