@@ -6,5 +6,6 @@ setup(name='fortunate',
       test_suite='fortunate.tests',
       install_requires=['flask',
                         'flask-sqlalchemy',
-                        'flask-testing',])
+                        'flask-testing',
+                        'psycopg2'])
 
