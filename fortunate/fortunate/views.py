@@ -1,10 +1,10 @@
-from flask import request
+from flask import request, current_app, g
 from flask.views import MethodView
+from werkzeug.local import LocalProxy
 
-from fortunate.models import api
 from fortunate.exceptions import ApiException
+from fortunate.models import api
 from fortunate.utils import ApiResult
-
 
 class TokenAPI(MethodView):
     def get(self):

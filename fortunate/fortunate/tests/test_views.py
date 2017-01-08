@@ -1,7 +1,6 @@
 from flask_testing import TestCase
 
 from fortunate.utils import make_app
-from fortunate.models.sqlalchemy import db
 
 class ViewsMixin(object):
     fortunes = list('abcdefg')
@@ -12,6 +11,7 @@ class ViewsMixin(object):
         return response                
 
     def test_token_get(self):
+        #import pdb; pdb.set_trace()
         response = self.client.get('/token/')
         self.assert200(response)
         self.assertEqual(len(response.json['token']), 16)
@@ -83,25 +83,25 @@ class ViewsMixin(object):
         resp = self.client.get('/')
         self.assert200(resp)
 
-
 class TestSqlViews(TestCase, ViewsMixin):    
     def create_app(self):
-        app = make_app('fortunate.test_settings')
+        app = make_app('fortunate.test_settings.test_sql')
         app.add_url_rule('/', view_func=lambda: 'test')
         return app
 
     def setUp(self):
+        from fortunate.models.sqlalchemy import db
+
         db.create_all()
 
     def tearDown(self):
+        from fortunate.models.sqlalchemy import db
         db.session.remove()
         db.drop_all()
 
-class TestDictViews(TestCase, ViewsMixin):
-    def create_app(self):
-        class Testing:
-            TESTING=True
-            backed='fict'
-        app = make_app(Testing)
-        app.add_url_rule('/', view_func=lambda: 'test')
-        return app
+
+#class TestDictViews(TestCase, ViewsMixin):
+#    def create_app(self):
+#        app = make_app('fortunate.test_settings.test_dict')
+#        app.add_url_rule('/', view_func=lambda: 'test')
+#        return app

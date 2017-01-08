@@ -3,17 +3,16 @@ from flask import g
 from fortunate.utils import Fortune
 from fortunate.models.sqlalchemy import SqlFortune
 from fortunate.models.dict import DictFortune
+from werkzeug.local import LocalProxy
 
-api = Fortune()
+
+backends = {'sql': SqlFortune,
+            'dict': DictFortune}
+
+api = SqlFortune()
 
 def init_api(backend, app):
-    global api
-    if backend == 'sql':
-        api = SqlFortune()
-    else:
-        api = DictFortune()
-
-    api.init_app(app)
+    g._fortunate_api = backends[backend](app)
 
 
 

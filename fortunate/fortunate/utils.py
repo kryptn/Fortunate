@@ -1,6 +1,6 @@
 from random import choice
 
-from flask import Flask, json, Response
+from flask import Flask, json, Response, g
 
 
 class ApiFlask(Flask):
@@ -27,12 +27,10 @@ def make_app(additional_settings=None):
     if additional_settings:
         app.config.from_object(additional_settings)
 
-    # initialize db connection to avoid circular import
-    #from fortunate.models.sqlalchemy import db
-    #db.init_app(app)
-    
-    from fortunate.models import init_api
-    init_api(app.config.get('backend', 'sql'), app)
+    from fortunate.models import api
+    api.init_app(app)
+
+    #init_api(app.config.get('FORTUNATE_BACKEND', 'sql'), app)
 
     # register routes here instead of in __init__ to allow testing
     from fortunate.urls import routes

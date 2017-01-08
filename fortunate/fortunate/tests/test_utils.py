@@ -9,6 +9,14 @@ class AppTest(unittest.TestCase):
         app = make_app()
         self.assertEqual(app.name, 'fortunate')
 
+    def test_sql_backend(self):
+        app = make_app('fortunate.test_settings.test_sql')        
+        self.assertEqual(app.config.get('FORTUNATE_BACKEND'), 'sql')
+
+    def test_dict_backend(self):
+        app = make_app('fortunate.test_settings.test_dict')
+        self.assertTrue('FORTUNATE_BACKEND' in app.config)
+
     def test_additional_settings(self):
         class TestSettings:
             TESTCONFIG=True
